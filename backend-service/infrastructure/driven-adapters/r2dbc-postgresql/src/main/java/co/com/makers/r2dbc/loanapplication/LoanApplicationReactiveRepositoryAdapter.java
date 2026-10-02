@@ -1,17 +1,17 @@
-package co.com.makers.r2dbc;
+package co.com.makers.r2dbc.loanapplication;
 
 import co.com.makers.r2dbc.helper.ReactiveAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MyReactiveRepositoryAdapter extends ReactiveAdapterOperations<
+public class LoanApplicationReactiveRepositoryAdapter extends ReactiveAdapterOperations<
     Object/* change for domain model */,
     Object/* change for adapter model */,
     String,
-    MyReactiveRepository
+        LoanApplicationReactiveRepository
 > {
-    public MyReactiveRepositoryAdapter(MyReactiveRepository repository, ObjectMapper mapper) {
+    public LoanApplicationReactiveRepositoryAdapter(LoanApplicationReactiveRepository repository, ObjectMapper mapper) {
         /**
          *  Could be use mapper.mapBuilder if your domain model implement builder pattern
          *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
