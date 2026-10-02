@@ -3,7 +3,8 @@ package co.com.makers.r2dbc.loanapplication;
 import org.springframework.data.repository.query.ReactiveQueryByExampleExecutor;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-// TODO: This file is just an example, you should delete or modify it
-public interface LoanApplicationReactiveRepository extends ReactiveCrudRepository<Object, String>, ReactiveQueryByExampleExecutor<Object> {
+import java.util.UUID;
+
+public interface LoanApplicationReactiveRepository extends ReactiveCrudRepository<LoanApplicationEntity, UUID>, ReactiveQueryByExampleExecutor<LoanApplicationEntity> {
 
 }
