@@ -1,6 +1,7 @@
 package co.com.makers.r2dbc.loanapplication;
 
 import co.com.makers.model.loanapplication.LoanApplication;
+import co.com.makers.model.loanapplication.gateways.LoanApplicationRepository;
 import co.com.makers.r2dbc.helper.ReactiveAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ public class LoanApplicationReactiveRepositoryAdapter extends ReactiveAdapterOpe
     LoanApplicationEntity/* change for adapter model */,
         UUID,
         LoanApplicationReactiveRepository
-> {
+> implements LoanApplicationRepository {
     public LoanApplicationReactiveRepositoryAdapter(LoanApplicationReactiveRepository repository, ObjectMapper mapper) {
         /**
          *  Could be use mapper.mapBuilder if your domain model implement builder pattern

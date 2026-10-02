@@ -34,4 +34,13 @@ public class UserReactiveRepositoryAdapter extends ReactiveAdapterOperations<
         }
         return repository.existsByLoginIdentifier(loginIdentifier.getValue());
     }
+
+    @Override
+    public Mono<User> findByLoginIdentifier(LoginIdentifier loginIdentifier) {
+        if (loginIdentifier == null || loginIdentifier.getValue() == null) {
+            return Mono.empty();
+        }
+        return repository.findByLoginIdentifier(loginIdentifier.getValue())
+                .map(UserMapper::toDomain);
+    }
 }

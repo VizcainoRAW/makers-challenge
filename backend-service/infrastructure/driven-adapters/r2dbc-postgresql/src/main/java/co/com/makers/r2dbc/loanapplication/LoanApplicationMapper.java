@@ -22,7 +22,7 @@ public class LoanApplicationMapper {
                 domain.userId(),
                 domain.status(),
                 domain.amount(),
-                domain.created_at()
+                domain.createdAt()
         );
     }
 }

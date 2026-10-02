@@ -78,4 +78,31 @@ class UserReactiveRepositoryAdapterTest {
                 .expectNext(false)
                 .verifyComplete();
     }
+
+    @Test
+    void shouldFindUserByLoginIdentifier() {
+        UUID id = UUID.randomUUID();
+        LoginIdentifier loginIdentifier = new LoginIdentifier("test@test.com");
+        UserEntity entity = new UserEntity(id, Role.CUSTOMER, "test@test.com", "pass", true);
+        when(repository.findByLoginIdentifier("test@test.com")).thenReturn(Mono.just(entity));
+
+        Mono<User> result = adapter.findByLoginIdentifier(loginIdentifier);
+
+        StepVerifier.create(result)
+                .expectNextMatches(user -> user.id().equals(id)
+                        && user.role() == Role.CUSTOMER
+                        && user.loginIdentifier().getValue().equals("test@test.com")
+                        && user.password().equals("pass"))
+                .verifyComplete();
+
+        verify(repository).findByLoginIdentifier("test@test.com");
+    }
+
+    @Test
+    void shouldReturnEmptyWhenFindByLoginIdentifierIsNull() {
+        Mono<User> result = adapter.findByLoginIdentifier(null);
+
+        StepVerifier.create(result)
+                .verifyComplete();
+    }
 }

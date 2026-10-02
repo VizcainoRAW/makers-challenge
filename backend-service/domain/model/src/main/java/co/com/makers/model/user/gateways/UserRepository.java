@@ -8,4 +8,6 @@ public interface UserRepository {
     Mono<User> save(User user);
 
     Mono<Boolean> existsByLoginIdentifier(LoginIdentifier loginIdentifier);
+
+    Mono<User> findByLoginIdentifier(LoginIdentifier loginIdentifier);
 }

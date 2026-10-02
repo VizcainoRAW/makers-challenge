@@ -12,7 +12,7 @@ public record LoanApplication (
         UUID userId,
         LoanStatus status,
         BigDecimal amount,
-        Instant created_at
+        Instant createdAt
 ){
 
     public static LoanApplication create(UUID userId, BigDecimal amount) {
