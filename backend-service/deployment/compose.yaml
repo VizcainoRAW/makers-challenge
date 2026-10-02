@@ -13,6 +13,7 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./database:/docker-entrypoint-initdb.d
 
   pgadmin:
     container_name: pgadmin
