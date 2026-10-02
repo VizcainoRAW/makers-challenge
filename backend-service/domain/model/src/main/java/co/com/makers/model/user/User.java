@@ -9,10 +9,11 @@ import lombok.Setter;import java.util.UUID;
 public record User (
         UUID id,
         LoginIdentifier loginIdentifier,
-        String password
+        String password,
+        Boolean active
 ){
 
     public User register(LoginIdentifier loginIdentifier, String password) {
-        return new User(UUID.randomUUID(), loginIdentifier, password);
+        return new User(UUID.randomUUID(), loginIdentifier, password, true);
     }
 }
