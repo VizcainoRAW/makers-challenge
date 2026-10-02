@@ -18,7 +18,7 @@ public record User (
         Boolean active
 ){
 
-    public User register(Role role, LoginIdentifier loginIdentifier, String password) {
+    public static User register(Role role, LoginIdentifier loginIdentifier, String password) {
         return new User(UUID.randomUUID(), role, loginIdentifier, password, true);
     }
 }
