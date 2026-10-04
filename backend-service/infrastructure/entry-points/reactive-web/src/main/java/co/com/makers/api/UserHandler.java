@@ -3,6 +3,7 @@ package co.com.makers.api;
 import co.com.makers.api.dto.user.CreateUserRequest;
 import co.com.makers.api.dto.user.LoginRequest;
 import co.com.makers.api.dto.user.UserResponse;
+import co.com.makers.model.user.exceptions.UserAlreadyExistsException;
 import co.com.makers.model.user.valueobject.LoginIdentifier;
 import co.com.makers.usecase.createuser.CreateUserUseCase;
 import co.com.makers.usecase.login.LoginUseCase;
@@ -31,7 +32,11 @@ public class UserHandler {
                 .map(UserResponse::fromDomain)
                 .flatMap(res -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(res));
+                        .bodyValue(res))
+                .onErrorResume(UserAlreadyExistsException.class, ex ->
+                        ServerResponse.status(HttpStatus.CONFLICT)
+                                .bodyValue(ex.getMessage())
+                );
     }
 
     public Mono<ServerResponse> login(ServerRequest serverRequest) {
