@@ -52,7 +52,7 @@ public class UserHandler {
                 ))
                 .map(user -> new LoginResponse(
                         jwtService.generateAccessToken(user.id(), user.role()),
-                        jwtService.BEARER,
+                        JwtService.BEARER,
                         jwtService.getExpirationTimeMs())
                 )
                 .flatMap(res -> ServerResponse.ok()

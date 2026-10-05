@@ -47,6 +47,7 @@ public class SecurityConfig {
                         }))
                 .authorizeExchange(auth -> auth
                         .pathMatchers("api/auth/**", "/actuator/health").permitAll()
+                        .pathMatchers("api/users").permitAll()
                         .pathMatchers("api/admin/**").hasRole("ADMIN")
                         .anyExchange().authenticated())
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
