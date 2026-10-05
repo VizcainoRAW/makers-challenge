@@ -13,6 +13,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class LoanApplicationRouterRest {
     @Bean
     public RouterFunction<ServerResponse> loanApplicationRouterFunction(LoanApplicationHandler handler) {
-        return route(GET("/api/loans"), handler::listenGETUseCase);
+        return route(POST("/api/loans"), handler::createLoanApplication);
     }
 }

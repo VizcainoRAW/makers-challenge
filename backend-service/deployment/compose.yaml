@@ -25,7 +25,9 @@ services:
       - 6060:80
     depends_on:
       - database
-
+    volumes:
+      - pgadmin:/var/lib/pgadmin
 
 volumes:
   postgres_data:
+  pgadmin_data:

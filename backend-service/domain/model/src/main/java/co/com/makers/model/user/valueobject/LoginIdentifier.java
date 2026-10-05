@@ -11,4 +11,26 @@ public class LoginIdentifier {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LoginIdentifier other = (LoginIdentifier) obj;
+        return this.value.equals(other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

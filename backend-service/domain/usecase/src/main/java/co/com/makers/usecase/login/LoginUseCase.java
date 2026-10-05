@@ -1,6 +1,7 @@
 package co.com.makers.usecase.login;
 
 import co.com.makers.model.user.User;
+import co.com.makers.model.user.exceptions.UserBadCredentials;
 import co.com.makers.model.user.gateways.UserRepository;
 import co.com.makers.model.user.valueobject.LoginIdentifier;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,13 @@ public class LoginUseCase {
             return Mono.error(new IllegalArgumentException("Invalid login credentials"));
         }
         return userRepository.findByLoginIdentifier(loginIdentifier)
-                .switchIfEmpty(Mono.error(new IllegalArgumentException("Invalid credentials")))
+                .switchIfEmpty(Mono.error(new UserBadCredentials("Invalid credentials")))
                 .flatMap(user -> {
                     if (user.active() != null && !user.active()) {
-                        return Mono.error(new IllegalStateException("User is not active"));
+                        return Mono.error(new UserBadCredentials("User is not active"));
                     }
                     if (user.password() == null || !user.password().equals(password)) {
-                        return Mono.error(new IllegalArgumentException("Invalid credentials"));
+                        return Mono.error(new UserBadCredentials("Invalid credentials"));
                     }
                     return Mono.just(user);
                 });
