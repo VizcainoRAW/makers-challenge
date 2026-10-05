@@ -1,0 +1,38 @@
+<section class="card">
+  <h1>Log in</h1>
+
+  @if (registered) {
+    <div class="alert success">Account created. You can log in now.</div>
+  }
+  @if (expired) {
+    <div class="alert error">Your session expired. Please log in again.</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Email or username
+      <input formControlName="loginIdentifier" autocomplete="username" />
+      @if (form.controls.loginIdentifier.touched && form.controls.loginIdentifier.invalid) {
+        <span class="field-error">Required</span>
+      }
+    </label>
+
+    <label>
+      Password
+      <input type="password" formControlName="password" autocomplete="current-password" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="field-error">Required</span>
+      }
+    </label>
+
+    @if (error()) {
+      <div class="alert error">{{ error() }}</div>
+    }
+
+    <button type="submit" class="primary" [disabled]="loading()">
+      {{ loading() ? 'Logging in…' : 'Log in' }}
+    </button>
+  </form>
+
+  <p class="muted">No account? <a routerLink="/register">Register</a></p>
+</section>
