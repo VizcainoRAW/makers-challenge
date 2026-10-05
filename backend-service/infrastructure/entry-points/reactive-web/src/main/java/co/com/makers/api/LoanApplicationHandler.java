@@ -1,5 +1,8 @@
 package co.com.makers.api;
 
+import co.com.makers.api.dto.laonapplication.CreateLoanRequest;
+import co.com.makers.api.dto.laonapplication.LoanApplicationResponse;
+import co.com.makers.usecase.createloanapplication.CreateLoanApplicationUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -10,19 +13,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class LoanApplicationHandler {
 
+    private final CreateLoanApplicationUseCase createLoanApplicationUseCase;
 
-    public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
-
-    public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
-        // useCase2.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
-
-    public Mono<ServerResponse> listenPOSTUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
+    public Mono<ServerResponse> createLoanApplication(ServerRequest request) {
+        return request.bodyToMono(CreateLoanRequest.class)
+                .flatMap(
+                        req -> createLoanApplicationUseCase.applyForLoan(req.userId(), req.amount())
+                )
+                .map(LoanApplicationResponse::fromDomain)
+                .flatMap(res -> ServerResponse.ok().bodyValue(res));
     }
 }

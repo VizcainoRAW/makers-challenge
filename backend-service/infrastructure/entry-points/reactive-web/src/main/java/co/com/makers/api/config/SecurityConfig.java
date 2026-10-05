@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .pathMatchers("api/auth/**", "/actuator/health").permitAll()
                         .pathMatchers("api/users").permitAll()
                         .pathMatchers("api/admin/**").hasRole("ADMIN")
+                        .pathMatchers("api/loans").hasRole("CUSTOMER")
                         .anyExchange().authenticated())
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
