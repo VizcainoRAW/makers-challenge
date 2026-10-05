@@ -2,8 +2,11 @@ package co.com.makers.api;
 
 import co.com.makers.api.dto.user.CreateUserRequest;
 import co.com.makers.api.dto.user.LoginRequest;
+import co.com.makers.api.dto.user.LoginResponse;
 import co.com.makers.api.dto.user.UserResponse;
+import co.com.makers.api.jwt.JwtService;
 import co.com.makers.model.user.exceptions.UserAlreadyExistsException;
+import co.com.makers.model.user.exceptions.UserBadCredentials;
 import co.com.makers.model.user.valueobject.LoginIdentifier;
 import co.com.makers.usecase.createuser.CreateUserUseCase;
 import co.com.makers.usecase.login.LoginUseCase;
@@ -21,6 +24,8 @@ public class UserHandler {
 
     private final CreateUserUseCase createUser;
     private final LoginUseCase loginUseCase;
+
+    private final JwtService jwtService;
 
     public Mono<ServerResponse> createUser(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(CreateUserRequest.class)
@@ -45,9 +50,18 @@ public class UserHandler {
                         new LoginIdentifier(req.loginIdentifier()),
                         req.password()
                 ))
-                .map(UserResponse::fromDomain)
+                .map(user -> new LoginResponse(
+                        jwtService.generateAccessToken(user.id(), user.role()),
+                        jwtService.BEARER,
+                        jwtService.getExpirationTimeMs())
+                )
                 .flatMap(res -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(res));
+                        .bodyValue(res))
+                .onErrorResume(UserBadCredentials.class,
+                        ex -> ServerResponse.status(HttpStatus.UNAUTHORIZED).bodyValue(ex.getMessage()))
+                .onErrorResume(
+                        ex -> ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue(ex.getMessage())
+                );
     }
 }

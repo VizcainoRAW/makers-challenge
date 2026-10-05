@@ -24,7 +24,7 @@ cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 
 jwt:
-  secret: ${JWT_SECRET:secret}
+  secret: ${JWT_SECRET:super-secret-key-for-jwt-token-256bits}
   expiration-ms: ${JWT_EXPIRATION_MS:1800}
   issuer: ${JWT_ISSUER:makers}
 
