@@ -28,4 +28,11 @@ public record LoanApplication (
                 Instant.now()
         );
     }
+
+    public LoanApplication changeStatus(LoanStatus newStatus) {
+        if (newStatus == null) {
+            throw new IllegalArgumentException("The loan status is required");
+        }
+        return new LoanApplication(id, userId, newStatus, amount, createdAt);
+    }
 }
